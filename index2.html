@@ -1,0 +1,199 @@
+<html>
+<head>
+<title> NASA SPACE APPS CHALLENGE TAIWAN </title>
+<link rel=stylesheet type="text/css" href="my_css.css">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<META HTTP-EQUIV="refresh" CONTENT="5;URL=index2.html">
+<style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+</head>
+<body onload="setTimeout('tempAlert(xmlDoc,3000)', 2000);">
+
+
+<div id="map"></div>
+<div style="position:absolute;top:380px;left:15px">
+<table id="table1">
+<tr>
+	<th COLSPAN=7><CENTER>即時資訊</CENTER></th>
+	<!--<th COLSPAN=6><CENTER>2天後資訊</CENTER></th>-->
+</tr>
+
+<script language="JavaScript">
+function dataupdate(index,time,temp,humi,UVI,weather,windpeed,wave) {
+	Data[index][0] = time;
+	Data[index][1] = temp;
+	Data[index][2] = humi;
+	Data[index][3] = UVI;
+	Data[index][4] = weather;
+	Data[index][5] = windpeed;
+	Data[index][6] = wave;
+}
+var Data = new Array(3);
+for(var i=0;i<3;i++)
+	Data[i] = new Array(3);
+dataupdate(0,"2017-04-16 00:00:00",21.29,66,4,"多雲時晴",7.67,"舒適");
+dataupdate(1,"2017-04-16 02:00:00",19.9,75,1,"多雲",7.69,"舒適");
+dataupdate(2,"2017-04-16 00:00:00",21.05,67,4,"晴",5.63,"舒適");
+
+var Item = ["時間","溫度","濕度","UVI","天氣","風速","舒適度"];
+var table = document.getElementById("table1");
+var tObj = table.tBodies[0];
+var row = document.createElement("tr");
+for(var i=0;i<Item.length;i++){
+var cell = document.createElement("td");
+cell.innerHTML = Item[i];
+row.appendChild(cell);
+}
+tObj.appendChild(row);
+
+var table = document.getElementById("table1");
+var tObj = table.tBodies[0];
+var row = document.createElement("tr");
+var count = 7;
+//	即時資訊
+for(var i=0;i<count;i++){
+var cell = document.createElement("td");
+cell.setAttribute("id", "subtd");
+cell.innerHTML = Data[0][i];
+row.appendChild(cell);
+}
+// 2天後資訊
+/*
+for(var i=0;i<count;i++){
+var cell = document.createElement("td");
+cell.innerHTML = Data[2][i];;
+row.appendChild(cell);
+}*/
+
+tObj.appendChild(row);
+</script>
+<script>
+if (window.XMLHttpRequest)
+{// code for IE7+, Firefox, Chrome, Opera, Safari
+    xmlhttp=new XMLHttpRequest();
+}
+else
+{// code for IE6, IE5
+    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+}
+xmlhttp.open("GET","beach_result.txt",false);
+xmlhttp.send();
+xmlDoc=xmlhttp.responseText;
+if (xmlDoc > 0)
+{
+  xmlDoc = '海是乾淨的'
+}
+else
+{
+  xmlDoc = '海是骯髒的'
+}
+function tempAlert(msg,duration)
+{
+ var el = document.createElement("div");
+ el.setAttribute("style","position:absolute;top:40%;left:20%;font-family: Microsoft JhengHei;font-size:20px;font-weight:bold;");
+ el.innerHTML = msg;
+ setTimeout(function(){
+  el.parentNode.removeChild(el);
+ },duration);
+ document.body.appendChild(el);
+}
+
+
+</script>
+
+<tr>
+<th COLSPAN=7><CENTER>預測資訊(+2hurs)</CENTER></th>
+</tr>
+<script>
+var Item = ["時間","溫度","濕度","UVI","天氣","風速","舒適度"];
+var table = document.getElementById("table1");
+var tObj = table.tBodies[0];
+var row = document.createElement("tr");
+for(var i=0;i<Item.length;i++){
+var cell = document.createElement("td");
+cell.innerHTML = Item[i];
+row.appendChild(cell);
+}
+tObj.appendChild(row);
+
+var table = document.getElementById("table1");
+var tObj = table.tBodies[0];
+var row = document.createElement("tr");
+var count = 7;
+//	2小時後資訊
+for(var i=0;i<count;i++){
+var cell = document.createElement("td");
+cell.setAttribute("id", "subtd");
+cell.innerHTML = Data[1][i];;
+row.appendChild(cell);
+}
+tObj.appendChild(row);
+</script>
+    <script>
+      var map;
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 27.723340, lng: -84.427249},
+          zoom: 7
+        });
+	
+	var myLatLng = {lat: 28.3206, lng: -80.6092};
+	var marker = new google.maps.Marker({
+    position: myLatLng,
+    map: map,
+    title: 'Hello World!'
+  });
+      }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAeRthyAhwkm4ytyIOPygwGn2HVvRfQiWM&callback=initMap"
+    async defer>
+	</script>
+</table>
+</div>
+<div style="position:absolute;top:50px;left:1200px;background-color:#FFFFFF;">
+<table id="table2">
+<th width = 120><CENTER>顯示資料</CENTER></th>
+<script>
+var Item = ["時間","溫度","濕度","UVI","天氣","風速","舒適度"];
+var table2 = document.getElementById("table2");
+for(var i=0;i<Item.length;i++){
+var checkbox = document.createElement('input');
+checkbox.type = "checkbox";
+checkbox.name = "name";
+checkbox.value = "value";
+checkbox.id = "id";
+checkbox.checked = true;
+
+var label = document.createElement('label')
+label.htmlFor = "id";
+label.appendChild(document.createTextNode(Item[i]));
+
+var bar = document.createElement("br");
+
+table2.appendChild(checkbox);
+table2.appendChild(label);
+table2.appendChild(bar);
+}
+</script>
+</table>
+</div>
+<div style="position:absolute;top:150px;left:15px;">
+<img src="./pic/beachimg.jpg" alt="圖片替代文字" title="Cocoa Beach" border="1"width="288px" height="216px">
+</div>
+<noscript>
+Sorry, but your browser doesn't run JavaScript.
+</noscript>
+
+</body>
+</html>
